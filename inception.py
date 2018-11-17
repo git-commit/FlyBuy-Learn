@@ -16,7 +16,7 @@ steps_val = val_size // bs
 
 train_datagen = image.ImageDataGenerator()
 train_generator = train_datagen.flow_from_directory(
-        'data/train_set_small',
+        'data/train_set',
         target_size=size,
         batch_size=bs,
         class_mode='categorical')
@@ -54,7 +54,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 # train the model on the new data for a few epochs
 model.fit_generator(train_generator,
 	    steps_per_epoch=steps_per_epoch,
-		epochs=10,
+		epochs=1,
         validation_data=test_generator,
         validation_steps=steps_val)
 
@@ -83,7 +83,7 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossent
 # alongside the top Dense layers
 model.fit_generator(train_generator,
 	    steps_per_epoch=steps_per_epoch,
-		epochs=10,
+		epochs=1,
         validation_data=test_generator,
         validation_steps=steps_val)
 
