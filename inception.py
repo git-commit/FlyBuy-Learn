@@ -15,9 +15,10 @@ val_size = 1200
 steps_val = val_size // bs
 
 train_datagen = image.ImageDataGenerator(
+ rescale=1./255,
  rotation_range=180,
- width_shift_range=.1,
- height_shift_range=.1,
+ width_shift_range=.2,
+ height_shift_range=.2,
  brightness_range=(0.5, 1),
  shear_range=0.2,
  zoom_range=0.2,
@@ -32,7 +33,10 @@ train_generator = train_datagen.flow_from_directory(
         save_format="jpeg",
         interpolation="bicubic")
 
-test_datagen = image.ImageDataGenerator()
+test_datagen = image.ImageDataGenerator(
+     rescale=1./255
+     )
+
 test_generator = test_datagen.flow_from_directory(
         'data/test_set',
         target_size=size,
