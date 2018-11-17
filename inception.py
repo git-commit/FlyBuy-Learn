@@ -12,6 +12,9 @@ tf_config.gpu_options.allow_growth = True
 s = tf.Session(config=tf_config)
 K.set_session(s)
 
+
+# parameters
+model_name = "models/inception_kaufland.h5"
 num_classes = 12
 size = (299, 299)
 in_size = 3600
@@ -21,6 +24,12 @@ steps_per_epoch = in_size // bs
 val_size = 1200
 steps_val = val_size // bs
 
+cores = 12
+def init_worker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+pool = multiprocessing.Pool(processes=cores, initializer=init_worker)
+
 train_datagen = image.ImageDataGenerator(
  rescale=1./255,
  rotation_range=180,
@@ -29,7 +38,8 @@ train_datagen = image.ImageDataGenerator(
  brightness_range=(0.5, 1),
  shear_range=0.2,
  zoom_range=0.2,
- fill_mode="nearest")
+ fill_mode="nearest",
+ pool=pool)
 
 train_generator = train_datagen.flow_from_directory(
         'data/train_set',
@@ -40,7 +50,8 @@ train_generator = train_datagen.flow_from_directory(
         )
 
 test_datagen = image.ImageDataGenerator(
-     rescale=1./255
+     rescale=1./255,
+     pool=pool
      )
 
 test_generator = test_datagen.flow_from_directory(
@@ -115,4 +126,4 @@ model.fit_generator(train_generator,
         validation_data=test_generator,
         validation_steps=steps_val)
 
-model.save(os.path.join(os.getcwd(), "models/inception_kaufland.h5"))
+model.save(os.path.join(os.getcwd(), model_name))
