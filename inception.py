@@ -1,9 +1,16 @@
 import os
+import tensorflow as tf
 from keras.applications.inception_v3 import InceptionV3
 from keras.preprocessing import image
 from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
 from keras import backend as K
+
+# make sure soft-placement is off
+tf_config = tf.ConfigProto(allow_soft_placement=False)
+tf_config.gpu_options.allow_growth = True
+s = tf.Session(config=tf_config)
+K.set_session(s)
 
 num_classes = 12
 size = (299, 299)
@@ -80,8 +87,8 @@ model.fit_generator(train_generator,
 
 # let's visualize layer names and layer indices to see how many layers
 # we should freeze:
-for i, layer in enumerate(base_model.layers):
-   print(i, layer.name)
+#for i, layer in enumerate(base_model.layers):
+#   print(i, layer.name)
 
 # we chose to train the top 2 inception blocks, i.e. we will freeze
 # the first 249 layers and unfreeze the rest:
@@ -90,10 +97,15 @@ for layer in model.layers[:249]:
 for layer in model.layers[249:]:
    layer.trainable = True
 
+print("Fine tuning...")
 # we need to recompile the model for these modifications to take effect
 # we use SGD with a low learning rate
 from keras.optimizers import SGD
-model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossentropy')
+model.compile(
+    optimizer=SGD(lr=0.0001, momentum=0.9),
+    loss='categorical_crossentropy',
+    metrics=['acc']
+    )
 
 # we train our model again (this time fine-tuning the top 2 inception blocks
 # alongside the top Dense layers
