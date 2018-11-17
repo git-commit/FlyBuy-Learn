@@ -29,9 +29,8 @@ train_generator = train_datagen.flow_from_directory(
         target_size=size,
         batch_size=bs,
         class_mode='categorical',
-        save_to_dir=os.path.join(os.getcwd(), "data\\train_augmented"),
-        save_format="jpeg",
-        interpolation="bicubic")
+        #interpolation="bicubic"
+        )
 
 test_datagen = image.ImageDataGenerator(
      rescale=1./255
