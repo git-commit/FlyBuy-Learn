@@ -6,12 +6,18 @@ from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
 from keras import backend as K
 
+import multiprocessing
+# The original class can be imported like this:
+# from keras.preprocessing.image import ImageDataGenerator
+
+# We access the modified version through T.ImageDataGenerator
+import tools.image as T
+
 # make sure soft-placement is off
 tf_config = tf.ConfigProto(allow_soft_placement=False)
 tf_config.gpu_options.allow_growth = True
 s = tf.Session(config=tf_config)
 K.set_session(s)
-
 
 # parameters
 model_name = "models/inception_kaufland.h5"
