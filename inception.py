@@ -8,18 +8,29 @@ from keras import backend as K
 num_classes = 12
 size = (299, 299)
 in_size = 3600
-bs = 32
+bs = 12
 steps_per_epoch = in_size // bs
 
 val_size = 1200
 steps_val = val_size // bs
 
-train_datagen = image.ImageDataGenerator()
+train_datagen = image.ImageDataGenerator(
+ rotation_range=180,
+ width_shift_range=.1,
+ height_shift_range=.1,
+ brightness_range=(0.5, 1),
+ shear_range=0.2,
+ zoom_range=0.2,
+ fill_mode="nearest")
+
 train_generator = train_datagen.flow_from_directory(
         'data/train_set',
         target_size=size,
         batch_size=bs,
-        class_mode='categorical')
+        class_mode='categorical',
+        save_to_dir=os.path.join(os.getcwd(), "data\\train_augmented"),
+        save_format="jpeg",
+        interpolation="bicubic")
 
 test_datagen = image.ImageDataGenerator()
 test_generator = test_datagen.flow_from_directory(
@@ -53,8 +64,8 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 
 # train the model on the new data for a few epochs
 model.fit_generator(train_generator,
-	    steps_per_epoch=steps_per_epoch,
-		epochs=1,
+        steps_per_epoch=steps_per_epoch,
+        epochs=10,
         validation_data=test_generator,
         validation_steps=steps_val)
 
@@ -82,8 +93,8 @@ model.compile(optimizer=SGD(lr=0.0001, momentum=0.9), loss='categorical_crossent
 # we train our model again (this time fine-tuning the top 2 inception blocks
 # alongside the top Dense layers
 model.fit_generator(train_generator,
-	    steps_per_epoch=steps_per_epoch,
-		epochs=1,
+        steps_per_epoch=steps_per_epoch,
+        epochs=10,
         validation_data=test_generator,
         validation_steps=steps_val)
 
