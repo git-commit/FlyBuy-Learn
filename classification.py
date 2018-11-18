@@ -48,8 +48,8 @@ def getImageData(path):
 	y *= 1.0/255
 	return y
 
-def classify():
-	path = os.path.join(os.getcwd(), "img_0")
+def classify(name):
+	path = os.path.join(os.getcwd(), name)
 	predicted = predict_class_num(path)
 	print('Product ' + str(eans_dict.get(eans[predicted])) + ' with EAN-13: ' + str(eans[predicted]) + ' found.')
 	return eans[predicted], eans_dict.get(eans[predicted])

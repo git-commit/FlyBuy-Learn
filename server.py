@@ -38,10 +38,10 @@ def upload_image():
         f.write(img)
     
     # TODO: process image data (this should be done first)
-    result = classifier.classify()
+    result = classifier.classify(name)
     print('Classification result: ' + str(result[0]) + ' - ' + str(result[1]))
 
-    return result
+    return str(result[0])
 
 
 @app.route('/sessions', methods=['POST'])
