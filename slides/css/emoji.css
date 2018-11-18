@@ -1,0 +1,13 @@
+div.emoji{
+	font-size: 5em;
+    font-family: apple color emoji,segoe ui emoji,noto color emoji,android emoji,emojisymbols,emojione mozilla,twemoji mozilla,segoe ui symbol;
+}
+
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+}
+
+.reveal section img { background:none; border:none; box-shadow:none; }
