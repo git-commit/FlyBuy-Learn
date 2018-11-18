@@ -5,6 +5,8 @@ from flask import request
 
 import base64
 
+import classification as classifier
+
 app = Flask(__name__)
 
 # The API of paths looks more complex (feature is not as important right now)
@@ -36,6 +38,8 @@ def upload_image():
         f.write(img)
     
     # TODO: process image data (this should be done first)
+    result = classifier.classify()
+    print('Classification result: ' + str(result[0]) + ' - ' + str(result[1]))
 
     return "saved " + name
 
@@ -72,4 +76,4 @@ def get_flight_path(path_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0')
