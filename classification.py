@@ -41,12 +41,6 @@ def predict_class_num(path):
 	print(pred)
 	return np.argmax(pred)
 
-def getEAN(path):
-	num_class = predict_class_num(path)
-	ean = eans[num_class]
-	name = eans_dict[ean]
-	return (ean, name)
-
 def getImageData(path):
 	# predicting multiple images at once
 	img = image.load_img(path, target_size=(299, 299))
