@@ -11,3 +11,7 @@ div.emoji{
 }
 
 .reveal section img { background:none; border:none; box-shadow:none; }
+
+.not-done {
+	opacity: 0.4;
+}
