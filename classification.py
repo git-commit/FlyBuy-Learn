@@ -42,7 +42,6 @@ def predict_class_num(path):
 	return np.argmax(pred)
 
 def getImageData(path):
-	# predicting multiple images at once
 	img = image.load_img(path, target_size=(299, 299))
 	y = image.img_to_array(img)
 	y = np.expand_dims(y, axis=0)

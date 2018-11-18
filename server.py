@@ -41,7 +41,7 @@ def upload_image():
     result = classifier.classify()
     print('Classification result: ' + str(result[0]) + ' - ' + str(result[1]))
 
-    return "saved " + name
+    return result
 
 
 @app.route('/sessions', methods=['POST'])
